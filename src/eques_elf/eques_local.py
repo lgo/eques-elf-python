@@ -154,14 +154,14 @@ def _formatted(dt: datetime) -> str:
     return dt.strftime("%Y-%m-%d-%H:%M:%S")
 
 
-def discover_command():
+def discover_command() -> List[Device]:
     formatted_dt = _formatted(datetime.now())
     command = f"lan_phone%mac%nopassword%{formatted_dt}%heart"
     logger.debug(f"sending: {command}")
     responses = _broadcast_command(command)
     logger.debug(f"response size={len(responses)}")
     devices = [unwrap_heartbeat_resp(ip, _decrypt(data)) for data, ip in responses]
-    print(json.dumps([device.as_dict() for device in devices]))
+    return devices
 
 
 def parse_status(status_blob: str) -> bool:

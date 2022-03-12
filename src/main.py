@@ -16,7 +16,8 @@ logger = logging.getLogger(__name__)
 
 def discover_cli(args: argparse.Namespace):
     logger.debug("executing discover")
-    discover_command()
+    devices = discover_command()
+    print(json.dumps([device.as_dict() for device in devices]))
 
 
 def send_cli(args: argparse.Namespace):
